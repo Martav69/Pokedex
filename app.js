@@ -5,6 +5,7 @@ let allPokemon = [];
 let tableauFin = [];
 const searchInput = document.querySelector('.recherche-poke input');
 const listePoke = document.querySelector('.liste-poke');
+const chargement = document.querySelector('.loader');
 
 
 // liste des couleurs par type 
@@ -24,13 +25,16 @@ const types = {
     fighting: '#C25956',
     rock: '#B6A136',
     ghost: '#735797',
+    ice : '#96D9D6',
+    dark : '#5A5563',
+    steel : '#ADADC6',
 };
 
 // premier appel à l'API qui récupère toutes les infos 
 
 function fetchPokemonbase(){
   
-    fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
+    fetch("https://pokeapi.co/api/v2/pokemon?limit=385")
         .then(response => response.json() )
         .then((allPoke) => {
             allPoke.results.forEach((pokemon) => {
@@ -67,7 +71,7 @@ function fetchPokemonComplet(pokemon){
             objPokemonFull.name = pokeData.names[4].name;
             allPokemon.push(objPokemonFull);
 
-            if(allPokemon.length === 151) {
+            if(allPokemon.length === 385) {
                 
                 tableauFin = allPokemon.sort((a,b) => {
                     return a.id - b.id;
@@ -75,6 +79,7 @@ function fetchPokemonComplet(pokemon){
                 }).slice(0,21);
 
                 createCard(tableauFin);
+                chargement.style.display = "none";
             }
         })
         
@@ -105,6 +110,56 @@ function createCard(arr){
         listePoke.appendChild(carte);
         
     }
+}
+
+// scroll infini
+
+window.addEventListener('scroll', () => {
+
+    const {scrollTop, scrollHeight, clientHeight} = document.documentElement;
+    // Scroll depuis le top / scroll total / hauteur de la fenêtre partie visible
+
+    if(clientHeight + scrollTop >= scrollHeight - 20){
+        addPoke(6)
+    }
+})
+
+let index = 21;
+
+function addPoke(nb) {
+    if(index > 385){
+        return;
+    } 
+    const arrToAdd = allPokemon.slice(index, index+nb);
+    createCard(arrToAdd);
+    index +=nb;
+}
+
+// Systeme de recherche 
+
+searchInput.addEventListener('keyup', recherche);
+
+function recherche(){
+    if (index < 385){
+        addPoke(364);
+    }
+
+    let filter,allLi,titleValue, allTitles;
+    filter = searchInput.value.toUpperCase();
+    allLi = document.querySelectorAll('li');
+    allTitles= document.querySelectorAll('li > h5');
+
+    for(i = 0; i < allLi.length; i++) {
+
+        titleValue = allTitles[i].innerText;
+
+        if(titleValue.toUpperCase().indexOf(filter)> -1 ){
+            allLi[i].style.display = 'flex';
+        } else {
+            allLi[i].style.display = 'none';
+        }
+    }
+
 }
 
 // Si le text input n'est pas vide alors la transition reste activé 
