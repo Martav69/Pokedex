@@ -16,6 +16,11 @@ h1 {
     color: #f1F1F1;
 }
 
+h4 {
+    text-align: center;
+    color: #f1F1F1;
+}
+
 .recherche-poke {
     max-width: 700px;
     width: 70%;
@@ -80,25 +85,61 @@ ul {
 }
 
 .liste-poke li {
-    width: 250px;
-    height: auto;
-    padding: 15px;
-    margin : 5px;
+    width: 250px; 
+    height: 250px; 
+    margin: 5px;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
+    position: relative; 
     border-radius: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+   
+}
+
+.liste-poke img {
+    width: 60%; 
+    max-height: 180px; 
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .liste-poke h5 {
+    position: absolute;
     font-size: 19px;
+    bottom: 10px; /* Position a partir du bas  */
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 20px); /* Réduit la largeur pour tenir compte du padding */
+    text-align: center; 
 }
 
 .liste-poke p {
     font-size: 18px;
+    position: absolute;
+    top: 10px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 20px); /* Réduit la largeur pour tenir compte du padding */
+    text-align: center; 
 }
 
+
+.hidden {
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none;
+}
+
+.active {
+    opacity: 1;
+    transform: scale(1);  
+}
 /* anim loader */
 
 .loader {

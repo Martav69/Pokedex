@@ -59,6 +59,7 @@ function fetchPokemonComplet(pokemon){
     .then(reponse => reponse.json())
     .then((pokeData) => {
         objPokemonFull.pic = pokeData.sprites.front_default;
+        objPokemonFull.shiny = pokeData.sprites.front_shiny;
         objPokemonFull.type = pokeData.types[0].type.name;
         objPokemonFull.id = pokeData.id;
 
@@ -99,16 +100,28 @@ function createCard(arr){
         const txtCarte = document.createElement('h5');
         txtCarte.innerText = arr[i].name;
         const idCarte = document.createElement('p');
-        idCarte.innerText = `ID#${arr[i].id}`
+        idCarte.innerText = `ID#${arr[i].id}`;
         const imgCarte = document.createElement('img');
         imgCarte.src = arr[i].pic;
+        imgCarte.classList.add('active'); // Ajoutez une classe pour identifier l'image active
+
+        // Ajout image Shiny mais cachée initialement
+        const imgShiny = document.createElement('img');
+        imgShiny.src = arr[i].shiny;
+        imgShiny.classList.add('hidden'); // classe pour cacher cette image
 
         carte.appendChild(imgCarte);
+        carte.appendChild(imgShiny);
         carte.appendChild(txtCarte);
         carte.appendChild(idCarte);
 
         listePoke.appendChild(carte);
-        
+
+        // Listener pour toggle la classe
+        carte.addEventListener('click', function() {
+            imgCarte.classList.toggle('hidden');
+            imgShiny.classList.toggle('hidden');
+        });
     }
 }
 
